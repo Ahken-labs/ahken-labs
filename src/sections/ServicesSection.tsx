@@ -1,58 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef } from 'react';
-import CartBox from '@/components/CartBox';
+import CartBox from '@/components/common/CartBox';
 import goArrow from '@/assets/icons/go_arrow.svg';
 import { servicesData } from '@/api/servicesData';
 import useScale from '@/hooks/useScale';
+import useEdgeAutoScroll from '@/hooks/useEdgeAutoScroll';
+import ailogo from '@/assets/images/logo_ai.svg';
+import BrandsSection from '@/components/services/BrandsSection';
+import ReviewSection from '@/components/Aboutus/ReviewSection';
 
 export default function ServicesSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
   const scale = useScale();
-
-  const startScroll = (direction: 'left' | 'right') => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const speed = 18;
-
-    const step = () => {
-      if (!container) return;
-
-      container.scrollLeft += direction === 'right' ? speed : -speed;
-      rafRef.current = requestAnimationFrame(step);
-    };
-
-    if (!rafRef.current) {
-      rafRef.current = requestAnimationFrame(step);
-    }
-  };
-
-  const stopScroll = () => {
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const edge = 120;
-
-    if (x > rect.width - edge) {
-      startScroll('right');
-    } else if (x < edge) {
-      startScroll('left');
-    } else {
-      stopScroll();
-    }
-  };
+  const { containerRef, handleMouseMove, stopScroll } = useEdgeAutoScroll();
 
   return (
     <section id="Services" className="py-20">
@@ -62,7 +22,7 @@ export default function ServicesSection() {
       </h2>
 
       <div
-        ref={scrollRef}
+        ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={stopScroll}
         className="flex gap-6 overflow-x-scroll scrollbar-hide"
@@ -122,6 +82,22 @@ export default function ServicesSection() {
           </div>
         ))}
       </div>
+      <div
+        style={{
+          marginTop: 64 * scale,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          src={ailogo}
+          alt="AI Logo"
+          width={400 * scale}
+          height={400}
+        />
+      </div>
+      <BrandsSection />
+      <ReviewSection />
     </section>
   );
 }

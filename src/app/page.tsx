@@ -3,7 +3,6 @@ import HeroSection from '@/sections/HeroSection';
 import ServicesSection from '@/sections/ServicesSection';
 import PortfolioSection from '@/sections/PortfolioSection';
 import AboutSection from '@/sections/AboutSection';
-import ContactSection from '@/sections/ContactSection';
 import HomeStatsSection from '@/sections/HomeStatsSection';
 import Footer from '@/components/Footer';
 
@@ -28,10 +27,10 @@ export default function HomePage() {
           <AboutSection />
         </section>
 
-        <section id="contact">
-          <ContactSection />
+        <section id="Footer">
+          <Footer />
         </section>
-        <Footer />
+        
       </main>
     </>
   );

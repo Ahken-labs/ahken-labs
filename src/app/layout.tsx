@@ -9,7 +9,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html
+    >
       <body>
         {/* Header overlay (fixed) */}
         <Header />

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import talkIcon from '@/assets/icons/Talk_to_us.svg';
 import logoImg from '@/assets/icons/logo.svg';
 import facebookIcon from '@/assets/icons/facebook.svg';
@@ -15,6 +15,7 @@ import footerPeople from '@/assets/images/footer_people_group.svg';
 
 import { siteInfo, socialLinks, footerLinks } from '@/api/footerData';
 import useScale from '@/hooks/useScale';
+import { openWhatsApp } from '@/utils/whatsapp';
 
 const iconMap: Record<string, StaticImageData> = {
     facebook: facebookIcon,
@@ -72,7 +73,7 @@ export default function Footer() {
                                 text="Talk to us"
                                 icon={talkIcon}
                                 className="bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B]"
-                                onClick={() => scrollTo('contact')}
+                                onClick={() => openWhatsApp('Hi there... I need you to guide me for my business.')}
                             />
                         </div>
                     </div>
@@ -81,7 +82,7 @@ export default function Footer() {
 
             {/* ================= FOOTER BASE ================= */}
             <div
-                className="w-full 
+                className="w-full mt-40
                 bg-[radial-gradient(120%_80%_at_50%_0%,rgba(36,66,155,0.35)_0%,rgba(6,15,54,0.9)_55%,#060F36_100%),linear-gradient(180deg,#24429A,#060F36)]"
             >
                 <div style={{ marginRight: 200 * scale, marginLeft: 200 * scale }} className="pt-[164px]">

@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import CartBox from '@/components/CartBox';
-import DotsLoader from '@/components/DotsLoader';
+import CartBox from '@/components/common/CartBox';
+import DotsLoader from '@/components/common/DotsLoader';
 import { getSiteStats } from '@/api/siteStats';
 
 const boxPadding = {

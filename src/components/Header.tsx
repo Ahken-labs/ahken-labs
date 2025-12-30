@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import colors from '@/constants/colors';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import logoImg from '@/assets/icons/logo.svg';
 import talkIcon from '@/assets/icons/Talk_to_us.svg';
 import useScale from '@/hooks/useScale';
@@ -177,7 +177,7 @@ export default function Header() {
         <Button
           text="Talk to us"
           icon={talkIcon}
-          onClick={() => scrollTo('contact')}
+          onClick={() => scrollTo('Footer')}
           backgroundColor={colors.white}
           textColor={colors.button_text}
         />

@@ -23,7 +23,7 @@ export default function PortfolioSection() {
           fontSize: 40,
           fontWeight: 700,
           color: '#111111',
-          marginTop: 64,
+          marginTop: 64 * scale,
           marginBottom: 40,
         }}
       >
@@ -74,7 +74,7 @@ export default function PortfolioSection() {
                       fontWeight: 600,
                       color: '#111111',
                       marginRight: 4,
-                      paddingBottom:6
+                      paddingBottom: 6
                     }}
                   >
                     {project.name}
@@ -143,7 +143,7 @@ export default function PortfolioSection() {
                   fontWeight: 600,
                   color: '#111111',
                   marginRight: 4,
-                  marginBottom:4
+                  marginBottom: 4
                 }}
               >
                 {isFullyExpanded ? 'Hide the rest' : 'See all projects'}

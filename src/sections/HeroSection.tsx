@@ -1,7 +1,7 @@
 // sections/HeroSection.tsx
 import Image from 'next/image';
 import heroImg from '@/assets/images/hero.svg';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import callIcon from '@/assets/icons/call_black.svg';
 import colors from '@/constants/colors';
 

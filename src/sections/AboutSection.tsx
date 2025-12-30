@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import messageIcon from '@/assets/icons/Talk_to_us.svg';
 import colors from '@/constants/colors';
 import useScale from '@/hooks/useScale';
 import { openWhatsApp } from '@/utils/whatsapp';
+import FAQSection from '@/components/Aboutus/FAQSection';
 
 export default function AboutSection() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -127,8 +128,7 @@ export default function AboutSection() {
                     />
                 </div>
             </div>
-
-            {/* NEXT SECTION GOES HERE */}
+            <FAQSection />
         </section>
     );
 }
