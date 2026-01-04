@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import logoImg from '@/assets/icons/logo.svg';
 
-const MIN_VISIBLE_MS = 50;
-const FADE_DURATION_MS = 50;
-const MAX_WAIT_MS = 100;
+const MIN_VISIBLE_MS = 100;
+const FADE_DURATION_MS = 100;
+const MAX_WAIT_MS = 200;
 
 const LOADING_MESSAGES = [
   'Boiling the database ☕',
