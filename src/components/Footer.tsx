@@ -14,7 +14,6 @@ import twitterIcon from '@/assets/icons/twitter.svg';
 import LinkedIn from '@/assets/icons/LinkedIn.svg';
 
 import footerPeople from '@/assets/images/footer_people_group.svg';
-import footerPeopleMobile from '@/assets/images/footer_people_group_mobile.png';
 import footerPeopleTablet from '@/assets/images/footer_people_group_tablet.svg';
 
 import { siteInfo, socialLinks, footerLinks } from '@/api/footerData';
@@ -50,7 +49,7 @@ export default function Footer() {
 
     // CTA left image width percent (decrease for tablet/mobile)
     const leftImagePercent = useMemo(() => {
-        if (isMobile) return 35;
+        if (isMobile) return 0;
         if (isTablet) return 40;
         return 50; // desktop
     }, [isMobile, isTablet]);
@@ -70,7 +69,7 @@ export default function Footer() {
                     position: 'absolute',
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    top: isDesktop ? -114 : isTablet ? -100 : -100,
+                    top: isDesktop ? -114 : isTablet ? -100 : - 85,
                     width: '100%',
                     paddingLeft: paddingLR,
                     paddingRight: paddingLR,
@@ -78,7 +77,8 @@ export default function Footer() {
                 }}
             >
                 <div
-                    className="rounded-[40px] flex overflow-hidden"
+                    className={`rounded-[40px] overflow-hidden ${isMobile ? 'flex flex-col' : 'flex'
+                        }`}
                     style={{
                         background: 'linear-gradient(90deg,#5577E0 0%,#1C1C89 50%)',
                         alignItems: 'stretch',
@@ -88,7 +88,6 @@ export default function Footer() {
                     <div
                         style={{
                             width: `${leftImagePercent}%`,
-                            minHeight: 160,
                             position: 'relative',
                             overflow: 'hidden',
                         }}
@@ -112,23 +111,13 @@ export default function Footer() {
                             className="object-cover object-bottom transition-opacity duration-500 ease-in-out"
                             style={{ opacity: isTablet ? 1 : 0 }}
                         />
-
-                        {/* MOBILE */}
-                        <Image
-                            src={footerPeopleMobile}
-                            alt="People Mobile"
-                            fill
-                            priority
-                            className="object-cover object-bottom transition-opacity duration-500 ease-in-out"
-                            style={{ opacity: isMobile ? 1 : 0 }}
-                        />
                     </div>
 
                     {/* RIGHT CONTENT */}
                     <div
                         style={{
                             width: `${100 - leftImagePercent}%`,
-                            padding: isMobile ? 16 : 40,
+                            padding: isMobile ? 20 : 40,
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'space-between',
@@ -146,16 +135,21 @@ export default function Footer() {
                             Not sure where to start? Talk to us for free, we’ll guide you with the right solutions for your business.
                         </p>
 
-                        <div style={{ marginTop: 24 }}>
+                        <div
+                            className={`${isMobile ? 'w-full' : ''}`}
+                            style={{ marginTop: 24 }}
+                        >
                             <Button
                                 text="Talk to us"
                                 icon={talkIcon}
-                                className="bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B]"
+                                className={`bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B] ${isMobile ? 'w-full justify-center' : ''
+                                    }`}
                                 onClick={() => openWhatsApp('Hi there... I need you to guide me for my business.')}
                                 textSize={ctaButtonTextSize}
                                 iconSize={ctaButtonIconSize}
                             />
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -164,7 +158,7 @@ export default function Footer() {
             <div
                 className="w-full"
                 style={{
-                    marginTop: isMobile ? 150 : 160,
+                    marginTop: isMobile ? 120 : 160,
                     background:
                         'radial-gradient(120% 80% at 50% 0%, rgba(36,66,155,0.35) 0%, rgba(6,15,54,0.9) 55%, #060F36 100%), linear-gradient(180deg,#24429A,#060F36)',
                 }}
@@ -172,7 +166,7 @@ export default function Footer() {
                 <div
                     style={{
                         ...horizontalMarginStyle,
-                        paddingTop: isMobile ? 130 : 164,
+                        paddingTop: isMobile ? 120 : 164,
                     }}
                 >
 

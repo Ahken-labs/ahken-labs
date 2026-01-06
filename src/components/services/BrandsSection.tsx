@@ -36,14 +36,13 @@ export default function BrandsSection() {
           position: 'relative',
         }}
       >
-        <ScrollFade />
         <div
           ref={containerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={stopScroll}
           style={{
-            paddingLeft: isDesktop ? paddingLR : 20,
-            paddingRight: isDesktop ? paddingLR : 20,
+            marginLeft: isDesktop ? paddingLR : 20,
+            marginRight: isDesktop ? paddingLR : 20,
             display: 'flex',
             gap: 64 * scale,
             overflowX: 'scroll',
@@ -51,6 +50,7 @@ export default function BrandsSection() {
           }}
           className="scrollbar-hide"
         >
+           <ScrollFade />
           {brandsData.map(brand => (
             <Image
               key={brand.id}

@@ -43,7 +43,7 @@ export default function Header() {
 
   /* ---------- RESPONSIVE LAYOUT (use hook) ---------- */
   // Use the hook (same scale you used previously)
-  const { paddingLR, screenWidth } = useResponsivePadding(scale);
+  const { paddingLR, screenWidth, isMobile } = useResponsivePadding(scale);
 
   // Derive the hamburger boolean the same way your previous effect did
   const useHamburger = screenWidth < HAMBURGER_BREAKPOINT;
@@ -127,7 +127,7 @@ export default function Header() {
             <span
               style={{
                 marginLeft: 8,
-                fontSize: 32,
+                fontSize: isMobile? 26 :32,
                 fontWeight: 500,
                 color: '#fff',
                 whiteSpace: 'nowrap',

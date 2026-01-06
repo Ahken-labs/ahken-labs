@@ -1,4 +1,3 @@
-//components/common/Button.tsx
 'use client';
 import fonts from '@/constants/fonts';
 import Image, { StaticImageData } from 'next/image';
@@ -7,6 +6,7 @@ export interface ButtonProps {
   text: string;
   icon: StaticImageData;
   onClick?: () => void;
+  href?: string; // ✅ ADD THIS
   backgroundColor?: string;
   textColor?: string;
   className?: string;
@@ -18,26 +18,24 @@ export default function Button({
   text,
   icon,
   onClick,
+  href,
   backgroundColor = '#FFFFFF',
   textColor = '#000000',
   className = '',
   textSize,
   iconSize,
 }: ButtonProps) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        backgroundColor,
-        borderRadius: 16,
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 32,
-        paddingRight: 32
-      }}
-      className={`flex items-center px-[32px] py-[14px] ${className}`}
-    >
-      {/* ICON */}
+  const commonStyles = {
+    backgroundColor,
+    borderRadius: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 32,
+    paddingRight: 32,
+  };
+
+  const content = (
+    <>
       <Image
         src={icon}
         alt="icon"
@@ -45,20 +43,41 @@ export default function Button({
         height={iconSize ?? 24}
         style={{ marginRight: 8 }}
       />
-
-      {/* TEXT */}
       <span
         style={{
           fontSize: textSize ?? 20,
           fontWeight: fonts.weight.button_weight,
           color: textColor,
           whiteSpace: 'nowrap',
-          alignSelf: 'center',
-          userSelect: 'none'
+          userSelect: 'none',
         }}
       >
         {text}
       </span>
+    </>
+  );
+
+  // ✅ IF EMAIL / LINK — USE <a>
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={`flex items-center px-[32px] py-[14px] ${className}`}
+        style={commonStyles}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  // ✅ NORMAL BUTTON
+  return (
+    <button
+      onClick={onClick}
+      style={commonStyles}
+      className={`flex items-center px-[32px] py-[14px] ${className}`}
+    >
+      {content}
     </button>
   );
 }

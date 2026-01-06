@@ -5,10 +5,10 @@ import heroImg from '@/assets/images/hero.svg';
 import heroTabletImg from '@/assets/images/hero_tablet.svg';
 import heroMobileImg from '@/assets/images/hero_mobile.jpg';
 import Button from '@/components/common/Button';
-import callIcon from '@/assets/icons/Talk_to_us.svg';
+import emailIcon from '@/assets/icons/email.svg';
 import colors from '@/constants/colors';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
-import { openWhatsApp } from '@/utils/whatsapp';
+import { openEmail } from '@/utils/email';
 
 export default function HeroSection() {
   const { isDesktop, isTablet, isMobile } = useResponsivePadding();
@@ -107,12 +107,17 @@ export default function HeroSection() {
           {/* Button */}
           <Button
             text="Get Our Free Strategy"
-            icon={callIcon}
+            icon={emailIcon}
             className="bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B]"
             textColor={colors.button_text}
             textSize={buttonTextSize}
             iconSize={buttonIconSize}
-            onClick={() => openWhatsApp('Hi there..')}
+            onClick={() =>
+              openEmail(
+                'Request: Free strategy from Ahken Labs',
+                `Hi Ahken Labs,\n\nI would like to get a free strategy session.\n\nThanks,\n`
+              )
+            }
           />
         </div>
       </div>

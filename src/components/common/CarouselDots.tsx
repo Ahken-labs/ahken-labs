@@ -14,66 +14,6 @@ export default function CarouselDots({ containerRef }: Props) {
     const itemsPerViewRef = useRef(1);
     const cardWidthRef = useRef(1);
 
-    // useEffect(() => {
-    //     const container = containerRef.current;
-    //     if (!container) return;
-
-    //     const update = () => {
-    //         const card = container.querySelector<HTMLElement>(
-    //             '[data-carousel-item]'
-    //         );
-
-    //         if (!card) {
-    //             setPageCount(0);
-    //             return;
-    //         }
-
-    //         const style = getComputedStyle(card);
-    //         const marginRight = parseFloat(style.marginRight || '0');
-    //         const cardWidth = card.offsetWidth + marginRight;
-    //         const containerWidth = container.clientWidth || 1;
-
-    //         const itemsPerView = Math.max(
-    //             1,
-    //             Math.floor(containerWidth / cardWidth)
-    //         );
-
-    //         const pages = Math.ceil(
-    //             container.children.length / itemsPerView
-    //         );
-
-    //         itemsPerViewRef.current = itemsPerView;
-    //         cardWidthRef.current = cardWidth;
-
-    //         setPageCount(pages);
-
-    //         setActivePage(
-    //             Math.round(container.scrollLeft / (cardWidth * itemsPerView))
-    //         );
-    //     };
-
-    //     update();
-
-    //     const onScroll = () => {
-    //         setActivePage(
-    //             Math.round(
-    //                 container.scrollLeft /
-    //                 (cardWidthRef.current * itemsPerViewRef.current)
-    //             )
-    //         );
-    //     };
-
-    //     container.addEventListener('scroll', onScroll, { passive: true });
-    //     window.addEventListener('resize', update);
-
-    //     return () => {
-    //         container.removeEventListener('scroll', onScroll);
-    //         window.removeEventListener('resize', update);
-    //     };
-    // }, [containerRef]);
-
-    // inside CarouselDots component (only diffs shown)
-
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;

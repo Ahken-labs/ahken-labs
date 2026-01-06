@@ -7,7 +7,7 @@ import { getSiteStats } from '@/api/siteStats';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 
 export default function HomeStatsSection() {
-  const { isDesktop, isTablet } = useResponsivePadding();
+  const { isDesktop, isTablet, isMobile } = useResponsivePadding();
   const [stats, setStats] = useState<{
     projectsDelivered: number;
     happyClients: number;
@@ -24,7 +24,7 @@ export default function HomeStatsSection() {
       : { paddingTop: 20, paddingBottom: 20, paddingLeft: 14, paddingRight: 14 };
 
   // Font sizes
-  const focusTextSize = isDesktop ? 32 : isTablet ? 26 : 16;
+  const focusTextSize = isDesktop ? 32 : isTablet ? 26 : 20;
   const titleSize = isDesktop ? 40 : isTablet ? 30 : 26;
   const subtitleSize = isDesktop ? 20 : isTablet ? 15 : 14;
   const detailTextSize = isDesktop ? 20 : isTablet ? 15 : 14;
@@ -34,41 +34,91 @@ export default function HomeStatsSection() {
 
   return (
     <section className={`w-full flex flex-col items-center ${isDesktop ? 'mt-10' : isTablet ? 'mt-0' : 'mt-0'}`}>
+
       {/* CARTBOX ROW */}
-      <div className="flex flex-wrap justify-center gap-6">
-        <CartBox {...boxPadding}>
-          <div style={{ fontSize: focusTextSize, fontWeight: 600, textAlign: 'left' }}>
-            We focus on
-            <br />
-            value & impact
+      {isDesktop || isTablet ? (
+        <div className="flex flex-wrap justify-center gap-6">
+          <CartBox {...boxPadding}>
+            <div style={{ fontSize: focusTextSize, fontWeight: 600, textAlign: 'left' }}>
+              We focus on
+              <br />
+              value & impact
+            </div>
+          </CartBox>
+
+          <CartBox {...boxPadding}>
+            <div style={{ fontSize: titleSize, fontWeight: 600 }}>
+              {stats ? `${stats.projectsDelivered}+` : <DotsLoader />}
+            </div>
+            <div style={{ fontSize: subtitleSize }}>Projects Delivered</div>
+          </CartBox>
+
+          <CartBox {...boxPadding}>
+            <div style={{ fontSize: titleSize, fontWeight: 600 }}>98%</div>
+            <div style={{ fontSize: subtitleSize }}>Client Retention</div>
+          </CartBox>
+
+          <CartBox {...boxPadding}>
+            <div style={{ fontSize: titleSize, fontWeight: 600 }}>
+              {stats ? `${stats.happyClients}+` : <DotsLoader />}
+            </div>
+            <div style={{ fontSize: subtitleSize }}>Happy Clients</div>
+          </CartBox>
+
+          <CartBox {...boxPadding}>
+            <div style={{ fontSize: titleSize, fontWeight: 600 }}>24/7</div>
+            <div style={{ fontSize: subtitleSize }}>Client Support</div>
+          </CartBox>
+        </div>
+      ) : (
+        // mobile: 2-column grid. first box spans both columns
+        <div className="grid grid-cols-2 gap-4 w-full px-[30px]">
+          {/* Row 1: focus box spans 2 columns */}
+          <div className="col-span-2 w-full">
+            <CartBox {...boxPadding} style={{ width: '100%', alignItems:'center'}}>
+              <div style={{ fontSize: focusTextSize, fontWeight: 600, textAlign: 'center' }}>
+                We focus on
+                <br />
+                value & impact
+              </div>
+            </CartBox>
           </div>
-        </CartBox>
 
-        <CartBox {...boxPadding}>
-          <div style={{ fontSize: titleSize, fontWeight: 600 }}>
-            {stats ? `${stats.projectsDelivered}+` : <DotsLoader />}
+          {/* Row 2 */}
+          <div className="w-full">
+            <CartBox {...boxPadding} style={{ width: '100%' }}>
+              <div style={{ fontSize: titleSize, fontWeight: 600 }}>
+                {stats ? `${stats.projectsDelivered}+` : <DotsLoader />}
+              </div>
+              <div style={{ fontSize: subtitleSize }}>Projects Delivered</div>
+            </CartBox>
           </div>
-          <div style={{ fontSize: subtitleSize }}>Projects Delivered</div>
-        </CartBox>
 
-        <CartBox {...boxPadding}>
-          <div style={{ fontSize: titleSize, fontWeight: 600 }}>98%</div>
-          <div style={{ fontSize: subtitleSize }}>Client Retention</div>
-        </CartBox>
-
-        <CartBox {...boxPadding}>
-          <div style={{ fontSize: titleSize, fontWeight: 600 }}>
-            {stats ? `${stats.happyClients}+` : <DotsLoader />}
+          <div className="w-full">
+            <CartBox {...boxPadding} style={{ width: '100%' }}>
+              <div style={{ fontSize: titleSize, fontWeight: 600 }}>98%</div>
+              <div style={{ fontSize: subtitleSize }}>Client Retention</div>
+            </CartBox>
           </div>
-          <div style={{ fontSize: subtitleSize }}>Happy Clients</div>
-        </CartBox>
 
-        <CartBox {...boxPadding}>
-          <div style={{ fontSize: titleSize, fontWeight: 600 }}>24/7</div>
-          <div style={{ fontSize: subtitleSize }}>Client Support</div>
-        </CartBox>
-      </div>
+          {/* Row 3 */}
+          <div className="w-full">
+            <CartBox {...boxPadding} style={{ width: '100%' }}>
+              <div style={{ fontSize: titleSize, fontWeight: 600 }}>
+                {stats ? `${stats.happyClients}+` : <DotsLoader />}
+              </div>
+              <div style={{ fontSize: subtitleSize }}>Happy Clients</div>
+            </CartBox>
+          </div>
 
+          <div className="w-full">
+            <CartBox {...boxPadding} style={{ width: '100%' }}>
+              <div style={{ fontSize: titleSize, fontWeight: 600 }}>24/7</div>
+              <div style={{ fontSize: subtitleSize }}>Client Support</div>
+            </CartBox>
+          </div>
+        </div>
+      )}
       {/* TEXT DETAIL ROW */}
       <div
         className="text-center"
@@ -76,7 +126,7 @@ export default function HomeStatsSection() {
           marginTop: detailMarginTop,
           marginLeft: isDesktop ? 40 : 10,
           marginRight: isDesktop ? 40 : 10,
-          maxWidth: isDesktop ? 690 : 600,
+          maxWidth: isDesktop ? 690 :isMobile? '85%' :600,
           fontSize: detailTextSize,
           lineHeight: '150%',
           fontWeight: 400,

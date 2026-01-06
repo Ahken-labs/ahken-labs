@@ -126,7 +126,7 @@ export default function AboutSection() {
                     </p>
 
                     <Button
-                        text="Message us in WhatsApp"
+                        text={isMobile? "WhstsApp Us" : "Message us in WhatsApp"}
                         icon={messageIcon}
                         className="bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B]"
                         textColor={colors.button_text}
