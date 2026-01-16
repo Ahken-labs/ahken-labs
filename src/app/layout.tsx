@@ -1,4 +1,4 @@
-//app/services/layout.tsx
+//app/layout.tsx
 import './globals.css';
 import Header from '@/components/Header/Header';
 import LoadingOverlay from '@/components/LoadingOverlay';

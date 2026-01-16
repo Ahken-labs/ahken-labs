@@ -23,6 +23,25 @@ export default function PortfolioUIOverlay({
     );
 
     useEffect(() => {
+        if (!open) return;
+        // Push a history state when overlay opens
+        window.history.pushState({ overlay: true }, '');
+
+        const handlePopState = () => {
+            onClose();
+        };
+        window.addEventListener('popstate', handlePopState);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+            // When closing via X or swipe, remove the dummy state
+            if (window.history.state?.overlay) {
+                window.history.back();
+            }
+        };
+    }, [open, onClose]);
+
+
+    useEffect(() => {
         // reset loaded when frames change
         setLoaded(Array(frames.length).fill(false));
     }, [frames]);
@@ -138,7 +157,6 @@ export default function PortfolioUIOverlay({
                                                 justifyContent: 'center',
                                                 transformOrigin: '50% 50%',
                                                 animation: 'logoRotate 1400ms linear infinite',
-                                                animationDirection: 'alternate',
                                             }}
                                         >
                                             <Image

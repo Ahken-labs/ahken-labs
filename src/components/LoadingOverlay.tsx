@@ -21,16 +21,19 @@ export default function LoadingOverlay() {
   const [visible, setVisible] = useState(true);
   const [hiding, setHiding] = useState(false);
 
-  const [messageIndex, setMessageIndex] = useState<number>(() =>
-    LOADING_MESSAGES.length > 1 ? Math.floor(Math.random() * LOADING_MESSAGES.length) : 0
-  );
+  const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
+    setMessageIndex(
+      LOADING_MESSAGES.length > 1
+        ? Math.floor(Math.random() * LOADING_MESSAGES.length)
+        : 0
+    );
+
     const intervalId = window.setInterval(() => {
       setMessageIndex((prev) => {
-        if (LOADING_MESSAGES.length <= 1) return prev;
         let next = prev;
-        while (next === prev) {
+        while (next === prev && LOADING_MESSAGES.length > 1) {
           next = Math.floor(Math.random() * LOADING_MESSAGES.length);
         }
         return next;
