@@ -156,7 +156,7 @@ export default function PortfolioUIOverlay({
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 transformOrigin: '50% 50%',
-                                                animation: 'logoRotate 1400ms linear infinite',
+                                                animation: 'logoRotate 500ms linear infinite',
                                             }}
                                         >
                                             <Image
