@@ -46,3 +46,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## Deploy on Vercel
 
 This website is deployed on vercel. available on https://ahken-labs.vercel.app/ .
+
+
+### Project initiation Plan (Every steps of the project)
+
+Included here - https://docs.google.com/spreadsheets/d/1eH9M-zLfXOtB2ka2muXIfOtbTyjXnBEv27qh_SpgMHI/edit?usp=sharing
