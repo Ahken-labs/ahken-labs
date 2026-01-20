@@ -78,9 +78,7 @@ export async function getSiteStats(): Promise<SiteStats> {
 
     writeCached(result);
     return result;
-  } catch (err) {
-    // if error, return fallback but don't crash the UI
-    console.error('Error fetching siteStats from Firestore', err);
+  } catch {
     writeCached(FALLBACK_STATS);
     return FALLBACK_STATS;
   }

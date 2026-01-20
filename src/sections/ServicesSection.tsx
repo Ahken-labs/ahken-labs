@@ -26,11 +26,7 @@ export default function ServicesSection() {
           setServices(res);
         }
       })
-      .catch((err) => {
-        console.error('fetchServices failed', err);
-      });
   }, []);
-
 
   const sectionTitleSize = isDesktop ? 40 : isTablet ? 28 : 20;
   const sectionPaddingTop = isDesktop ? 64 : 40;

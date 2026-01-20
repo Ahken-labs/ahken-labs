@@ -131,9 +131,7 @@ export async function fetchSiteInfo(): Promise<SiteInfoType> {
     const snap = await getDoc(doc(db, COLLECTION, 'siteInfo'));
     if (!snap.exists()) return FALLBACK_SITE_INFO;
     return parseSiteInfo(snap.data());
-  } catch (err) {
-    // Persist errors to console but return fallback
-    console.error('fetchSiteInfo error', err);
+  } catch {
     return FALLBACK_SITE_INFO;
   }
 }
@@ -146,8 +144,7 @@ export async function fetchSocialLinks(): Promise<SocialLink[]> {
     const snap = await getDoc(doc(db, COLLECTION, 'socialLinks'));
     if (!snap.exists()) return FALLBACK_SOCIAL_LINKS;
     return parseSocialLinks(snap.data());
-  } catch (err) {
-    console.error('fetchSocialLinks error', err);
+  } catch {
     return FALLBACK_SOCIAL_LINKS;
   }
 }
@@ -160,8 +157,7 @@ export async function fetchFooterLinks(): Promise<FooterLinksType> {
     const snap = await getDoc(doc(db, COLLECTION, 'footerLinks'));
     if (!snap.exists()) return FALLBACK_FOOTER_LINKS;
     return parseFooterLinks(snap.data());
-  } catch (err) {
-    console.error('fetchFooterLinks error', err);
+  } catch {
     return FALLBACK_FOOTER_LINKS;
   }
 }

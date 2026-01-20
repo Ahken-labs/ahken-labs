@@ -44,8 +44,7 @@ export async function fetchBrands(): Promise<BrandItem[]> {
       ? valid.map(image => ({ image }))
       : FALLBACK_BRANDS;
 
-  } catch (e) {
-    console.error('fetchBrands error', e);
+  } catch {
     return FALLBACK_BRANDS;
   }
 }

@@ -106,8 +106,7 @@ export async function fetchServices(): Promise<ServiceItem[]> {
       );
 
     return services.length > 0 ? services : FALLBACK_SERVICES;
-  } catch (e) {
-    console.error('fetchServices error', e);
+  } catch {
     return FALLBACK_SERVICES;
   }
 }

@@ -70,8 +70,7 @@ export async function fetchFAQs(): Promise<FAQItem[]> {
       question: d.data().question,
       answer: d.data().answer,
     }));
-  } catch (e) {
-    console.error('fetchFAQs error', e);
+  } catch {
     return FALLBACK_FAQ;
   }
 }
