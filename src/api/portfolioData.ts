@@ -1,3 +1,8 @@
+// src/api/portfolioData.ts
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import type { StaticImageData } from 'next/image';
+import { db } from '@/lib/firebaseClient';
+
 import Xenia from '@/assets/images/Xenia.svg';
 import SurveySource from '@/assets/images/Survey_source.svg';
 import AdminDashboard from '@/assets/images/admin_dashboard.svg';
@@ -30,7 +35,31 @@ import Admindashboard5 from '@/assets/images/Admindashboard05.png';
 import Admindashboard6 from '@/assets/images/Admindashboard06.png';
 import Admindashboard7 from '@/assets/images/Admindashboard07.png';
 
-export const portfolioData = [
+import profileFallback from '@/assets/images/profile.png';
+
+/* ========== TYPES ========== */
+
+export type FrameItem = string | StaticImageData;
+
+export type PortfolioItem = {
+  id: string;
+  name: string;
+  title?: string;
+  description?: string;
+  type?: 'ui' | 'link';
+  link?: string;
+  image: string | StaticImageData;
+  frames?: FrameItem[];
+  createdAt?: string | number | Date;
+};
+
+/* ========== FALLBACK (local hardcoded) ========== */
+
+/**
+ * We reverse the fallback on consumption so newly appended items (defined last)
+ * appear first, matching expected "newest first" behaviour when DB isn't available.
+ */
+export const FALLBACK_PORTFOLIO: PortfolioItem[] = [
   {
     id: 'portfolio-1',
     name: 'Xenia',
@@ -60,13 +89,7 @@ export const portfolioData = [
     description:
       'Created a modern interface for a new-age platform that connects surveyors and users, replacing traditional survey processes with a seamless digital experience.',
     type: 'ui',
-    frames: [
-      Landingpage1,
-      Landingpage2,
-      Landingpage3,
-      Landingpage4,
-      Landingpage5
-    ],
+    frames: [Landingpage1, Landingpage2, Landingpage3, Landingpage4, Landingpage5],
   },
   {
     id: 'portfolio-3',
@@ -94,6 +117,7 @@ export const portfolioData = [
     description:
       'Designed a vibrant calendar showcasing tea pluckers in lush greenery-celebrating Sri Lanka’s heritage through detailed and atmospheric digital artwork.',
     link: 'https://xenia.com',
+    type: 'link',
   },
   {
     id: 'portfolio-5',
@@ -103,6 +127,7 @@ export const portfolioData = [
     description:
       'Created a bold jersey inspired by the brand’s tiger-eye identity. Designed using creative freedom, ensuring the visuals express strength, confidence, and the brand’s modern style.',
     link: 'https://xenia.com',
+    type: 'link',
   },
   {
     id: 'portfolio-6',
@@ -112,14 +137,107 @@ export const portfolioData = [
     description:
       'Developed a meaningful brand identity inspired by Sri Lankan heritage and the elegance of Sigiriya art-capturing tradition, authenticity, and the charm of age-old family recipes.',
     link: 'https://xenia.com',
-  },
-  {
-    id: 'portfolio-7',
-    image: GrandmasSecret,
-    name: 'Grandma’s Secret',
-    title: 'Logo & branding design',
-    description:
-      'Developed a meaningful brand identity inspired by Sri Lankan heritage and the elegance of Sigiriya art-capturing tradition, authenticity, and the charm of age-old family recipes.',
-    link: 'https://xenia.com',
+    type: 'link',
   },
 ];
+
+/* ========== HELPERS ========== */
+
+function isNonEmptyString(v: unknown): v is string {
+  return typeof v === 'string' && v.trim().length > 0;
+}
+
+function isValidUrl(v: string) {
+  return /^https?:\/\//i.test(v);
+}
+
+function resolveImageField(value: unknown): string | StaticImageData {
+  if (typeof value === 'string') {
+    const t = value.trim();
+    if (isValidUrl(t)) return t;
+    if (t.startsWith('/')) return t;
+    // not an URL or leading slash — avoid giving raw keys like "Xenia" to next/image
+    // fallback to profile
+    return profileFallback;
+  }
+  // if already StaticImageData, return fallback? but Firestore won't give that
+  return profileFallback;
+}
+
+function resolveFrames(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+
+  const frames = value
+    .map((f): string | undefined => {
+      if (typeof f === 'string') {
+        const t = f.trim();
+        return isValidUrl(t) || t.startsWith('/') ? t : undefined;
+      }
+
+      if (
+        typeof f === 'object' &&
+        f !== null &&
+        'url' in f &&
+        typeof (f as { url: unknown }).url === 'string'
+      ) {
+        const t = (f as { url: string }).url.trim();
+        return isValidUrl(t) || t.startsWith('/') ? t : undefined;
+      }
+
+      return undefined;
+    })
+    .filter((x): x is string => typeof x === 'string');
+
+  return frames.length > 0 ? frames : undefined;
+}
+/* ========== FETCH ========== */
+
+const COLLECTION = 'portfolios';
+
+/**
+ * fetchPortfolios() returns newest-first list:
+ * - when Firebase enabled: queries createdAt desc (newest first)
+ * - when Firebase disabled or on error: returns FALLBACK_PORTFOLIO with last-defined item shown first
+ */
+export async function fetchPortfolios(): Promise<PortfolioItem[]> {
+  if (process.env.NEXT_PUBLIC_FIREBASE_ENABLED !== 'true') {
+    // reverse fallback so last-defined (newly added locally) appears first
+    return FALLBACK_PORTFOLIO.slice().reverse();
+  }
+
+  try {
+    const q = query(collection(db, COLLECTION), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    if (snap.empty) return FALLBACK_PORTFOLIO.slice().reverse();
+
+    const items: PortfolioItem[] = snap.docs
+      .map((d) => {
+        const data = d.data();
+
+        const name = isNonEmptyString(data.name) ? data.name : '';
+        const title = isNonEmptyString(data.title) ? data.title : undefined;
+        const description = isNonEmptyString(data.description) ? data.description : undefined;
+        const type = data.type === 'ui' || data.type === 'link' ? data.type : undefined;
+        const link = isNonEmptyString(data.link) ? data.link : undefined;
+        const image = resolveImageField(data.image);
+        const frames = resolveFrames(data.frames);
+
+        return {
+          id: d.id,
+          name,
+          title,
+          description,
+          type,
+          link,
+          image,
+          frames,
+          createdAt: data.createdAt ?? undefined,
+        } as PortfolioItem;
+      })
+      .filter((p) => isNonEmptyString(p.name) && (isNonEmptyString(p.title ?? '') || isNonEmptyString(p.description ?? '') || p.frames?.length));
+
+    return items.length > 0 ? items : FALLBACK_PORTFOLIO.slice().reverse();
+  } catch {
+    return FALLBACK_PORTFOLIO.slice().reverse();
+  }
+}

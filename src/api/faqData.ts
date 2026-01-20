@@ -1,4 +1,12 @@
-export const faqData = [
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '@/lib/firebaseClient';
+
+export type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+export const FALLBACK_FAQ: FAQItem[] = [
   {
     question: 'What services does Ahken Labs provide?',
     answer:
@@ -40,3 +48,30 @@ export const faqData = [
       'Yes. We provide maintenance, updates, performance monitoring, and support to ensure everything runs smoothly long-term.',
   },
 ];
+
+const COLLECTION = 'faqs';
+
+export async function fetchFAQs(): Promise<FAQItem[]> {
+  if (process.env.NEXT_PUBLIC_FIREBASE_ENABLED !== 'true') {
+    return FALLBACK_FAQ;
+  }
+
+  try {
+    const q = query(
+      collection(db, COLLECTION),
+      orderBy('createdAt', 'asc')
+    );
+
+    const snap = await getDocs(q);
+
+    if (snap.empty) return FALLBACK_FAQ;
+
+    return snap.docs.map((d) => ({
+      question: d.data().question,
+      answer: d.data().answer,
+    }));
+  } catch (e) {
+    console.error('fetchFAQs error', e);
+    return FALLBACK_FAQ;
+  }
+}

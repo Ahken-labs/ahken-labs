@@ -1,4 +1,3 @@
-//src/components/common/CarouselDots.tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -7,11 +6,12 @@ type Props = {
     containerRef: React.RefObject<HTMLDivElement | null>;
 };
 
-export default function CarouselDots({ containerRef }: Props) {
-    const [pageCount, setPageCount] = useState(0);
-    const [activePage, setActivePage] = useState(0);
+const MAX_DOTS = 10;
 
-    const itemsPerViewRef = useRef(1);
+export default function CarouselDots({ containerRef }: Props) {
+    const [dotCount, setDotCount] = useState(0);
+    const [activeDot, setActiveDot] = useState(0);
+
     const cardWidthRef = useRef(1);
 
     useEffect(() => {
@@ -19,40 +19,34 @@ export default function CarouselDots({ containerRef }: Props) {
         if (!container) return;
 
         const update = () => {
-            const card = container.querySelector<HTMLElement>('[data-carousel-item]');
             const items = container.querySelectorAll<HTMLElement>('[data-carousel-item]');
+            const first = items[0];
 
-            if (!card || items.length === 0) {
-                setPageCount(0);
+            if (!first || items.length === 0) {
+                setDotCount(0);
                 return;
             }
 
-            const style = getComputedStyle(card);
+            const style = getComputedStyle(first);
             const marginRight = parseFloat(style.marginRight || '0');
-            const cardWidth = card.offsetWidth + marginRight;
-            const containerWidth = container.clientWidth || 1;
+            cardWidthRef.current = first.offsetWidth + marginRight;
 
-            const itemsPerView = Math.max(1, Math.floor(containerWidth / cardWidth));
-            const pages = Math.ceil(items.length / itemsPerView);
+            setDotCount(Math.min(items.length, MAX_DOTS));
+        };
 
-            itemsPerViewRef.current = itemsPerView;
-            cardWidthRef.current = cardWidth;
+        const onScroll = () => {
+            const scrollLeft = container.scrollLeft;
+            const rawIndex = Math.round(scrollLeft / cardWidthRef.current);
 
-            setPageCount(pages);
+            // Clamp index so it NEVER exceeds last dot
+            const maxIndex = Math.max(0, dotCount - 1);
+            const clampedIndex = Math.min(rawIndex, maxIndex);
 
-            setActivePage(Math.floor(container.scrollLeft / (cardWidth * itemsPerView)));
+            setActiveDot(clampedIndex);
         };
 
         update();
-
-        const onScroll = () => {
-            setActivePage(
-                Math.floor(
-                    container.scrollLeft /
-                    (cardWidthRef.current * itemsPerViewRef.current)
-                )
-            );
-        };
+        onScroll();
 
         container.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', update);
@@ -61,36 +55,31 @@ export default function CarouselDots({ containerRef }: Props) {
             container.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', update);
         };
-    }, [containerRef]);
+    }, [containerRef, dotCount]);
 
+    if (dotCount <= 1) return null;
 
-    const scrollToPage = (index: number) => {
+    const scrollToDot = (index: number) => {
         const container = containerRef.current;
         if (!container) return;
 
         container.scrollTo({
-            left:
-                index *
-                itemsPerViewRef.current *
-                cardWidthRef.current,
+            left: index * cardWidthRef.current,
             behavior: 'smooth',
         });
     };
 
-    // Hide dots if not needed
-    if (pageCount < 3) return null;
-
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
             <div style={{ display: 'flex', gap: 10 }}>
-                {Array.from({ length: pageCount }).map((_, i) => {
-                    const active = i === activePage;
+                {Array.from({ length: dotCount }).map((_, i) => {
+                    const active = i === activeDot;
 
                     return (
                         <button
                             key={i}
-                            onClick={() => scrollToPage(i)}
-                            aria-label={`Go to slide ${i + 1}`}
+                            onClick={() => scrollToDot(i)}
+                            aria-label={`Go to review ${i + 1}`}
                             style={{
                                 width: active ? 9 : 8,
                                 height: active ? 9 : 8,

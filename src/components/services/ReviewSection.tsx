@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import CartBox from '@/components/common/CartBox';
 import useEdgeAutoScroll from '@/hooks/useEdgeAutoScroll';
-import { reviewData } from '@/api/reviewData';
+import { fetchReviews, FALLBACK_REVIEWS, type ReviewItem } from '@/api/reviewData';
+import { useEffect, useState } from 'react';
 import starIcon from '@/assets/icons/star.svg';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 import ScrollFade from '../common/ScrollFade';
@@ -13,6 +14,14 @@ export default function ReviewSection() {
   const { containerRef, handleMouseMove, stopScroll } =
     useEdgeAutoScroll(14, 120);
   const { isDesktop, isTablet, paddingLR } = useResponsivePadding();
+  const [reviews, setReviews] = useState<ReviewItem[]>(FALLBACK_REVIEWS);
+
+  useEffect(() => {
+    fetchReviews()
+      .then((res) => {
+        if (Array.isArray(res) && res.length > 0) setReviews(res);
+      })
+  }, []);
 
   const boxpaddingTop = isDesktop ? 80 : 46;
   const sectionTitleSize = isDesktop ? 40 : isTablet ? 28 : 20;
@@ -20,7 +29,6 @@ export default function ReviewSection() {
   const reviewname = isDesktop ? 20 : isTablet ? 18 : 16;
   const review = isDesktop ? 16 : isTablet ? 14 : 12;
   const cartboxborder = isDesktop ? 24 : 18;
-  const imagewidth = isDesktop ? 48 : 32;
 
   return (
     <section
@@ -59,7 +67,7 @@ export default function ReviewSection() {
           onMouseLeave={stopScroll}
           className="flex gap-6 overflow-x-scroll scrollbar-hide"
         >
-          {reviewData.map(item => (
+          {reviews.map(item => (
             <div
               key={item.id}
               data-carousel-item
@@ -87,16 +95,26 @@ export default function ReviewSection() {
                       alignItems: 'center',
                     }}
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={imagewidth}
-                      height={imagewidth}
+                    <div
                       style={{
-                        borderRadius: 100,
+                        width: isDesktop ? 48 : 32,
+                        height: isDesktop ? 48 : 32,
+                        borderRadius: '50%',
+                        overflow: 'hidden',
                         marginRight: isDesktop ? 14 : 10,
                       }}
-                    />
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={isDesktop ? 48 : 32}
+                        height={isDesktop ? 48 : 32}
+                        style={{
+                          marginRight: isDesktop ? 14 : 10,
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </div>
                     <span
                       style={{
                         fontSize: reviewname,

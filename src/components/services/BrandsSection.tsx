@@ -1,8 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import useEdgeAutoScroll from '@/hooks/useEdgeAutoScroll';
-import { brandsData } from '@/api/brandsData';
+import { fetchBrands, FALLBACK_BRANDS } from '@/api/brandsData';
+import { useEffect, useState } from 'react';
+import type { BrandItem } from '@/api/brandsData';
 import useScale from '@/hooks/useScale';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 import ScrollFade from '../common/ScrollFade';
@@ -17,6 +18,10 @@ export default function BrandsSection() {
   const sectionPaddingTop = isDesktop ? 64 : 40;
   const imagepaddingTop = isDesktop ? 40 : 30;
   const imageheight = isDesktop ? 80 : isTablet ? 60 : 50;
+  const [brands, setBrands] = useState<BrandItem[]>(FALLBACK_BRANDS);
+  useEffect(() => {
+    fetchBrands().then(setBrands);
+  }, []);
 
   return (
     <section style={{ marginTop: sectionPaddingTop }}>
@@ -50,15 +55,27 @@ export default function BrandsSection() {
           }}
           className="scrollbar-hide"
         >
-           <ScrollFade />
-          {brandsData.map(brand => (
-            <Image
-              key={brand.id}
-              src={brand.image}
-              alt="Brand"
-              height={imageheight}
-            />
-          ))}
+          <ScrollFade />
+          {brands.map((brand) => {
+            const src =
+              typeof brand.image === 'string'
+                ? brand.image
+                : brand.image.src;
+            return (
+              //eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={src}
+                src={src}
+                alt="Brand"
+                style={{
+                  height: imageheight,
+                  width: 'auto',
+                  display: 'block',
+                  flexShrink: 0,
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

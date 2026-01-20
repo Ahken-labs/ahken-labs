@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import rightArrow from '@/assets/icons/right_arrow.svg';
-import { portfolioData } from '@/api/portfolioData';
+import { fetchPortfolios, FALLBACK_PORTFOLIO, type PortfolioItem } from '@/api/portfolioData';
 import { useState, useEffect, useRef } from 'react';
 import type { StaticImageData } from 'next/image';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
@@ -10,6 +10,14 @@ import PortfolioUIOverlay from '@/components/portfolio/PortfolioUIOverlay';
 
 export default function PortfolioSection() {
   const { isDesktop, isTablet, paddingLR } = useResponsivePadding();
+  const [portfolio, setPortfolio] = useState<PortfolioItem[]>(FALLBACK_PORTFOLIO.slice().reverse());
+
+  useEffect(() => {
+    fetchPortfolios()
+      .then((res) => {
+        if (Array.isArray(res) && res.length > 0) setPortfolio(res);
+      })
+  }, []);
 
   // Determine initial visible count & step based on device
   const initialVisible = isDesktop || isTablet ? 6 : 4;
@@ -26,8 +34,8 @@ export default function PortfolioSection() {
   const dragThreshold = 10; // px
   const startY = useRef<number>(0);
 
-  const visibleProjects = portfolioData.slice(0, visibleCount);
-  const isFullyExpanded = visibleCount >= portfolioData.length;
+  const visibleProjects = portfolio.slice(0, visibleCount);
+  const isFullyExpanded = visibleCount >= portfolio.length;
 
   const sectionPaddingTop = isDesktop ? 64 : 40;
   const titlebottom = isDesktop ? 40 : 30;
@@ -70,10 +78,22 @@ export default function PortfolioSection() {
           }}
         >
           {visibleProjects.map(project => (
-            <div key={project.id} className="w-full">
+            <div
+              key={project.id}
+              className="w-full"
+              style={{
+                transition: 'all 280ms cubic-bezier(.4,0,.2,1)',
+                willChange: 'transform, opacity, height',
+              }}
+            >
+
               {/* IMAGE */}
               <div
-                style={{ userSelect: 'none' }}
+                style={{
+                  userSelect: 'none',
+                  transition: 'all 280ms cubic-bezier(.4,0,.2,1)',
+                  willChange: 'transform, opacity, height',
+                }}
                 className="relative w-full cursor-pointer"
                 onMouseDown={(e) => {
                   startY.current = e.clientY;
@@ -88,7 +108,7 @@ export default function PortfolioSection() {
                 onMouseUp={() => {
                   if (!isDragging) {
                     if (project.type === 'ui') {
-                      setActiveFrames(project.frames);
+                      setActiveFrames(project.frames ?? []);
                       setUiOpen(true);
                     } else {
                       window.open(project.link, '_blank');
@@ -109,7 +129,7 @@ export default function PortfolioSection() {
                 onTouchEnd={() => {
                   if (!isDragging) {
                     if (project.type === 'ui') {
-                      setActiveFrames(project.frames);
+                      setActiveFrames(project.frames ?? []);
                       setUiOpen(true);
                     } else {
                       window.open(project.link, '_blank');
@@ -117,15 +137,23 @@ export default function PortfolioSection() {
                   }
                 }}
               >
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '1 / 1',
+                    overflow: 'hidden',
+                    borderRadius: 24,
+                  }}
+                >
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    fill
+                    style={{ objectFit: 'cover', borderRadius: 24 }}
+                  />
+                </div>
 
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  width={0}
-                  height={0}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="w-full h-auto rounded-[24px] object-cover"
-                />
                 {/* ARROW LINK */}
                 <a
                   href={project.link}
@@ -183,14 +211,16 @@ export default function PortfolioSection() {
 
 
         {/* SEE ALL BUTTON */}
-        {portfolioData.length > initialVisible && (
+        {portfolio.length > initialVisible && (
+
           <div className="flex justify-center" style={{ marginTop: isDesktop ? 40 : isTablet ? 35 : 30 }}>
             <button
               onClick={() => {
                 if (isFullyExpanded) {
                   setVisibleCount(initialVisible);
                 } else {
-                  setVisibleCount(prev => Math.min(prev + STEP, portfolioData.length));
+                  setVisibleCount(prev => Math.min(prev + STEP, portfolio.length));
+
                 }
               }}
               className="flex items-center"

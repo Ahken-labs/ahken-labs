@@ -197,16 +197,12 @@ section[id] {
 }
 
 @keyframes logoRotate {
-  0% {
-    transform: rotate(-8deg);
-  }
-
-  50% {
+  from {
     transform: rotate(0deg);
   }
 
-  100% {
-    transform: rotate(8deg);
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -284,4 +280,3 @@ section[id] {
 .animate-content-in {
   animation: content-in 110ms cubic-bezier(.2, .8, .2, 1) forwards;
 }
-

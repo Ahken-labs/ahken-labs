@@ -1,6 +1,9 @@
-import { siteInfo } from '@/api/footerData';
+import { fetchSiteInfo } from '@/api/footerData';
 
-export const openWhatsApp = (message = 'Hi there...') => {
+export const openWhatsApp = async (message = 'Hi there...') => {
+  const siteInfo = await fetchSiteInfo();
+  if (!siteInfo?.phone) return;
+
   const phone = siteInfo.phone.replace(/\s+/g, '').replace('+', '');
   const encodedMessage = encodeURIComponent(message);
 

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { faqData } from '@/api/faqData';
+import { fetchFAQs, FAQItem } from '@/api/faqData';
 import downArrow from '@/assets/icons/down_arrow.svg';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 
@@ -17,6 +17,10 @@ export default function FAQSection() {
     const toggleFAQ = (index: number) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
+    const [faqData, setFaqData] = useState<FAQItem[]>([]);
+    useEffect(() => {
+        fetchFAQs().then(setFaqData);
+    }, []);
 
     return (
         <section style={{ marginTop: sectionPaddingTop }}>

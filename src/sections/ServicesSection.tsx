@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import CartBox from '@/components/common/CartBox';
 import goArrow from '@/assets/icons/go_arrow.svg';
-import { servicesData } from '@/api/servicesData';
+import { fetchServices, FALLBACK_SERVICES, type ServiceItem } from '@/api/servicesData';
+import { useEffect, useState } from 'react';
 import useScale from '@/hooks/useScale';
 import useEdgeAutoScroll from '@/hooks/useEdgeAutoScroll';
 import ailogo from '@/assets/images/logo_ai.svg';
@@ -16,6 +17,20 @@ export default function ServicesSection() {
   const scale = useScale();
   const { containerRef, handleMouseMove, stopScroll } = useEdgeAutoScroll();
   const { isDesktop, isTablet, paddingLR } = useResponsivePadding();
+  const [services, setServices] = useState<ServiceItem[]>(FALLBACK_SERVICES);
+
+  useEffect(() => {
+    fetchServices()
+      .then((res) => {
+        if (Array.isArray(res) && res.length > 0) {
+          setServices(res);
+        }
+      })
+      .catch((err) => {
+        console.error('fetchServices failed', err);
+      });
+  }, []);
+
 
   const sectionTitleSize = isDesktop ? 40 : isTablet ? 28 : 20;
   const sectionPaddingTop = isDesktop ? 64 : 40;
@@ -47,7 +62,7 @@ export default function ServicesSection() {
           paddingBottom: boxpaddingBottom,
         }}
       >
-        {servicesData.map(service => (
+        {services.map(service => (
           <div
             key={service.title}
             data-carousel-item
@@ -63,12 +78,22 @@ export default function ServicesSection() {
               justifyContent: 'space-between',
             }}
           >
-            <div className="flex justify-center mt-5">
+            <div
+              className="flex justify-center mt-5"
+              style={{
+                position: 'relative',
+                height: 245.33,
+                width: '100%',
+                overflow: 'hidden',
+              }}
+            >
               <Image
                 src={service.image}
                 alt={service.title}
-                height={245.33}
-                className="object-contain"
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
               />
             </div>
 
@@ -91,7 +116,6 @@ export default function ServicesSection() {
               <h3 style={{ fontSize: isDesktop ? 24 : isTablet ? 16 : 14, fontWeight: 600 }}>
                 {service.title}
               </h3>
-
               <p
                 style={{
                   fontSize: isDesktop ? 20 : isTablet ? 14 : 14,

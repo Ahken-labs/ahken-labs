@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import talkIcon from '@/assets/icons/Talk_to_us.svg';
@@ -16,7 +16,15 @@ import LinkedIn from '@/assets/icons/LinkedIn.svg';
 import footerPeople from '@/assets/images/footer_people_group.svg';
 import footerPeopleTablet from '@/assets/images/footer_people_group_tablet.svg';
 
-import { siteInfo, socialLinks, footerLinks } from '@/api/footerData';
+import {
+    fetchSiteInfo,
+    fetchSocialLinks,
+    fetchFooterLinks,
+    SiteInfoType,
+    SocialLink,
+    FooterLinksType,
+} from '@/api/footerData';
+
 import useScale from '@/hooks/useScale';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 import { openWhatsApp } from '@/utils/whatsapp';
@@ -25,7 +33,7 @@ const iconMap: Record<string, StaticImageData> = {
     facebook: facebookIcon,
     instagram: instagramIcon,
     twitter: twitterIcon,
-    LinkedIn: LinkedIn,
+    linkedin: LinkedIn,
 };
 
 export default function Footer() {
@@ -46,6 +54,16 @@ export default function Footer() {
     // Contact / links text sizes
     const contactTextSize = isDesktop ? 16 : 12;
     const linksTextSize = isDesktop ? 16 : 12;
+
+    const [siteInfo, setSiteInfo] = useState<SiteInfoType | null>(null);
+    const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+    const [footerLinks, setFooterLinks] = useState<FooterLinksType | null>(null);
+
+    useEffect(() => {
+        fetchSiteInfo().then(setSiteInfo);
+        fetchSocialLinks().then(setSocialLinks);
+        fetchFooterLinks().then(setFooterLinks);
+    }, []);
 
     // CTA left image width percent (decrease for tablet/mobile)
     const leftImagePercent = useMemo(() => {
@@ -181,19 +199,19 @@ export default function Footer() {
                                         className="ml-2 font-medium"
                                         style={{ fontSize: logoTextSize }}
                                     >
-                                        {siteInfo.name}
+                                        {siteInfo?.name}
                                     </span>
                                 </div>
 
                                 <p className="mt-2" style={{ fontSize: contactTextSize, fontWeight: 300 }}>
-                                    {siteInfo.email}
+                                    {siteInfo?.email}
                                 </p>
                                 <p className="mt-2" style={{ fontSize: contactTextSize, fontWeight: 300 }}>
-                                    {siteInfo.phone}
+                                    {siteInfo?.phone}
                                 </p>
 
                                 <div className="flex gap-5 mt-5">
-                                    {socialLinks.map(link => (
+                                    {socialLinks.map((link) => (
                                         <a
                                             key={link.name}
                                             href={link.href}
@@ -204,7 +222,7 @@ export default function Footer() {
                                             hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.35)] 
                                             active:scale-100 " >
                                             <Image
-                                                src={iconMap[link.icon]}
+                                                src={iconMap[link.name.toLowerCase()]}
                                                 alt={link.name}
                                                 width={36}
                                                 height={36}
@@ -216,7 +234,7 @@ export default function Footer() {
 
                             {/* MIDDLE LINKS */}
                             <div className="space-y-2 ml-40">
-                                {footerLinks.main.map(link => (
+                                {footerLinks?.main.map(link => (
                                     <button
                                         key={link.id}
                                         onClick={() => document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
@@ -234,7 +252,7 @@ export default function Footer() {
 
                             {/* RIGHT LINKS */}
                             <div className="space-y-2">
-                                {footerLinks.services.map((lines, idx) => (
+                                {footerLinks?.services.map((lines, idx) => (
                                     <p key={idx} style={{ fontSize: linksTextSize, fontWeight: 300, lineHeight: '140%', }}>
                                         {lines.map((line, i) => (
                                             <span key={i} className="block">
@@ -256,15 +274,15 @@ export default function Footer() {
                                         className="ml-2 font-medium"
                                         style={{ fontSize: logoTextSize }}
                                     >
-                                        {siteInfo.name}
+                                        {siteInfo?.name}
                                     </span>
                                 </div>
 
                                 <p className="mt-2" style={{ fontSize: contactTextSize, fontWeight: 300 }}>
-                                    {siteInfo.email}
+                                    {siteInfo?.email}
                                 </p>
                                 <p className="mt-2" style={{ fontSize: contactTextSize, fontWeight: 300 }}>
-                                    {siteInfo.phone}
+                                    {siteInfo?.phone}
                                 </p>
 
                                 <div className="flex gap-5 mt-5">
@@ -280,7 +298,7 @@ export default function Footer() {
                                             active:scale-100 "
                                         >
                                             <Image
-                                                src={iconMap[link.icon]}
+                                                src={iconMap[link.name.toLowerCase()]}
                                                 alt={link.name}
                                                 width={36}
                                                 height={36}
@@ -296,7 +314,7 @@ export default function Footer() {
                             {/* MIDDLE + RIGHT links in single row (mobile) */}
                             <div className="flex justify-between">
                                 <div className="flex-1 pr-4 pl-2">
-                                    {footerLinks.main.map(link => (
+                                    {footerLinks?.main.map(link => (
                                         <button
                                             key={link.id}
                                             onClick={() => document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
@@ -312,7 +330,7 @@ export default function Footer() {
                                 </div>
 
                                 <div className="flex-1 pl-4 space-y-4">
-                                    {footerLinks.services.map((lines, idx) => (
+                                    {footerLinks?.services.map((lines, idx) => (
                                         <p key={idx} style={{ fontSize: linksTextSize, fontWeight: 300, lineHeight: '140%', }}>
                                             {lines.map((line, i) => (
                                                 <span key={i} className="block">

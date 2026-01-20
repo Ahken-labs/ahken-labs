@@ -1,10 +1,13 @@
-import { siteInfo } from '@/api/footerData';
+import { fetchSiteInfo } from '@/api/footerData';
 
-export const openEmail = (
+export const openEmail = async (
   subject = 'Business Inquiry',
   body = 'Hi there...'
 ) => {
-  const email = siteInfo.email;
+  const siteInfo = await fetchSiteInfo();
+  const email = siteInfo?.email;
+  if (!email) return;
+
   const encodedSubject = encodeURIComponent(subject);
   const encodedBody = encodeURIComponent(body);
 

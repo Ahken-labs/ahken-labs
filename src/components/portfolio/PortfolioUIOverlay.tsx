@@ -124,7 +124,13 @@ export default function PortfolioUIOverlay({
                 {/* FRAMES: each frame has its own loader centered over it until it loads */}
                 <div className="w-full">
                     {frames.map((frame, idx) => (
-                        <div key={idx} className="relative w-full">
+                        <div
+                            key={idx}
+                            className="relative w-full"
+                            style={{
+                                transition: 'opacity 280ms cubic-bezier(.4,0,.2,1)',
+                            }}
+                        >
                             {/* per-frame loader (absolute center inside wrapper) */}
                             {!loaded[idx] && (
                                 <div
@@ -175,10 +181,18 @@ export default function PortfolioUIOverlay({
                             <Image
                                 src={frame}
                                 alt={`frame-${idx}`}
-                                className={`w-full h-auto select-none transition-opacity duration-300 ease-[cubic-bezier(.4,0,.2,1)]
-                                    ${loaded[idx] ? 'opacity-100' : 'opacity-0'}`}
+                                width={1000}
+                                height={1}
+                                sizes="100vw"
+                                className="w-full h-auto select-none"
+                                style={{
+                                    transition: 'opacity 300ms cubic-bezier(.4,0,.2,1)',
+                                    opacity: loaded[idx] ? 1 : 0,
+                                }}
                                 onLoadingComplete={() => markLoaded(idx)}
                             />
+
+
                         </div>
                     ))}
                 </div>
