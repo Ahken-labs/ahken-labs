@@ -71,7 +71,7 @@ export default function ServicesSection() {
               boxShadow: '0px 0px 16px 0px #00000014',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
+              // justifyContent: 'space-between',
             }}
           >
             <div
@@ -106,7 +106,7 @@ export default function ServicesSection() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: '100%',
+                flex: 1,
               }}
             >
               <h3 style={{ fontSize: isDesktop ? 24 : isTablet ? 16 : 14, fontWeight: 600 }}>
@@ -122,20 +122,21 @@ export default function ServicesSection() {
               >
                 {service.description}
               </p>
+              <div>
+                <p
+                  style={{
+                    fontSize: isDesktop ? 20 : isTablet ? 14 : 14,
+                    fontWeight: 500,
+                    marginTop: isDesktop ? 26 : isTablet ? 20 : 20,
+                    fontStyle: 'italic',
+                  }}
+                >
+                  {service.tags}
+                </p>
 
-              <p
-                style={{
-                  fontSize: isDesktop ? 20 : isTablet ? 14 : 14,
-                  fontWeight: 500,
-                  marginTop: isDesktop ? 26 : isTablet ? 20 : 20,
-                  fontStyle: 'italic',
-                }}
-              >
-                {service.tags}
-              </p>
-
-              <div style={{ marginTop: 24 }}>
-                <Image src={goArrow} alt="Go" width={nexticonsize} height={nexticonsize} />
+                <div style={{ marginTop: 24 }}>
+                  <Image src={goArrow} alt="Go" width={nexticonsize} height={nexticonsize} />
+                </div>
               </div>
             </CartBox>
           </div>
