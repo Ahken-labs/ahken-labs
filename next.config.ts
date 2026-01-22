@@ -8,6 +8,22 @@ const nextConfig = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.ahkenlabs.com',
+          },
+        ],
+        destination: 'https://ahkenlabs.com/:path*',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
