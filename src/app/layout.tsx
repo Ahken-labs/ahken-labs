@@ -2,6 +2,7 @@
 import './globals.css';
 import Header from '@/components/Header/Header';
 import LoadingOverlay from '@/components/LoadingOverlay';
+import SeoSchema from './components/SeoSchema';
 
 export const metadata = {
   title: {
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html>
       <body>
+        <SeoSchema />
         <LoadingOverlay />
         <Header />
         <main>{children}</main>
