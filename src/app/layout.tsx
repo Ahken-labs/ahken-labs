@@ -7,7 +7,7 @@ export const metadata = {
   title: 'Ahken Labs',
   description: 'Ahken Labs website',
   verification: {
-    google: 'QRTF8gQi_4FSCV53iEuKpuKl3tBzRtVTzO13cFJIdIQ',
+    google: '445-F5EhUJaIkoqFInlYY3a5CYizoAg6mLwVywxM-UA',
   },
 };
 
