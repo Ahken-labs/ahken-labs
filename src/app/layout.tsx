@@ -6,6 +6,9 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 export const metadata = {
   title: 'Ahken Labs',
   description: 'Ahken Labs website',
+  verification: {
+    google: 'QRTF8gQi_4FSCV53iEuKpuKl3tBzRtVTzO13cFJIdIQ',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
