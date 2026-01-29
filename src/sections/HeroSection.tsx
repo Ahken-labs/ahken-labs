@@ -9,7 +9,6 @@ import emailIcon from '@/assets/icons/email.svg';
 import colors from '@/constants/colors';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 import { openEmail } from '@/utils/email';
-import { useEffect, useState } from 'react';
 
 export default function HeroSection() {
   const { isDesktop, isTablet, isMobile } = useResponsivePadding();
@@ -27,13 +26,6 @@ export default function HeroSection() {
 
   const sectionMinHeight = isMobile ? '0vh' : isTablet ? '80vh' : '95vh';
   const overlayMinHeight = isMobile ? '63vh' : isTablet ? '74vh' : '80vh';
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <section
