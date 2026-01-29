@@ -78,14 +78,6 @@ export default function Footer() {
         marginRight: paddingLR,
     };
 
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
-
     // Mobile-only: left section stacked first, then middle+right in single row beneath
     return (
         <footer className="relative w-full" id="Footer" aria-label="Site footer">
