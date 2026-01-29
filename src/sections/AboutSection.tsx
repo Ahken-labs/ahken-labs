@@ -57,14 +57,6 @@ export default function AboutSection() {
     const ctaButtonTextSize = isMobile || isTablet ? 14 : undefined;
     const ctaButtonIconSize = isMobile || isTablet ? 14 : undefined;
 
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
-
     return (
         <section id="about" ref={sectionRef}>
             {/* VIDEO BOX */}

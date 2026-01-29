@@ -32,14 +32,6 @@ export default function HomeStatsSection() {
   // Margin top for detail row
   const detailMarginTop = isDesktop ? 64 : 20;
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
   return (
     <section className={`w-full flex flex-col items-center ${isDesktop ? 'mt-10' : isTablet ? 'mt-0' : 'mt-0'}`}>
 

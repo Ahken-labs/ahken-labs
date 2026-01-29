@@ -37,13 +37,6 @@ export default function ServicesSection() {
   const ailogoSize = isDesktop ? 400 : isTablet ? 200 : 150;
   const ailogoTop = isDesktop ? 54 : 40;
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) return null;
-
   return (
     <section id="Services" style={{ paddingTop: sectionPaddingTop }}>
       <h2
