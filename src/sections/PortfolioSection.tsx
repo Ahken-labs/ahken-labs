@@ -44,6 +44,13 @@ export default function PortfolioSection() {
   const [uiOpen, setUiOpen] = useState(false);
   const [activeFrames, setActiveFrames] = useState<(StaticImageData | string)[]>([]);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+
   return (
     <section id="Portfolio">
       {/* HEADER */}

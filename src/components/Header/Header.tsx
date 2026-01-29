@@ -92,6 +92,16 @@ export default function Header() {
     };
   }, []);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <>
       <div
@@ -127,7 +137,7 @@ export default function Header() {
             <span
               style={{
                 marginLeft: 8,
-                fontSize: isMobile? 26 :32,
+                fontSize: isMobile ? 26 : 32,
                 fontWeight: 500,
                 color: '#fff',
                 whiteSpace: 'nowrap',

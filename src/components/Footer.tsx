@@ -72,11 +72,19 @@ export default function Footer() {
         return 50; // desktop
     }, [isMobile, isTablet]);
 
-    // Footer container horizontal margin uses paddingLR (same idea as header)
+    // Footer container horizontal margin uses paddingLR 
     const horizontalMarginStyle = {
         marginLeft: paddingLR,
         marginRight: paddingLR,
     };
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
 
     // Mobile-only: left section stacked first, then middle+right in single row beneath
     return (

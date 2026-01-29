@@ -21,11 +21,11 @@ export default function LoadingOverlay() {
   const [visible, setVisible] = useState(true);
   const [hiding, setHiding] = useState(false);
 
-  const [messageIndex, setMessageIndex] = useState(() =>
-    LOADING_MESSAGES.length > 1
-      ? Math.floor(Math.random() * LOADING_MESSAGES.length)
-      : 0
-  );
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    setMessageIndex(Math.floor(Math.random() * LOADING_MESSAGES.length));
+  }, []);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {

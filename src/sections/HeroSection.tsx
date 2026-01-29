@@ -9,6 +9,7 @@ import emailIcon from '@/assets/icons/email.svg';
 import colors from '@/constants/colors';
 import useResponsivePadding from '@/hooks/useResponsivePadding';
 import { openEmail } from '@/utils/email';
+import { useEffect, useState } from 'react';
 
 export default function HeroSection() {
   const { isDesktop, isTablet, isMobile } = useResponsivePadding();
@@ -19,7 +20,6 @@ export default function HeroSection() {
       ? heroTabletImg
       : heroMobileImg;
 
-  // Text & button sizing
   const headingFontSize = isDesktop ? 36 : isTablet ? 26 : 16;
   const buttonTextSize = isDesktop ? 20 : 14;
   const buttonIconSize = isDesktop ? 24 : 14;
@@ -27,6 +27,13 @@ export default function HeroSection() {
 
   const sectionMinHeight = isMobile ? '0vh' : isTablet ? '80vh' : '95vh';
   const overlayMinHeight = isMobile ? '63vh' : isTablet ? '74vh' : '80vh';
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <section
@@ -38,7 +45,6 @@ export default function HeroSection() {
         transition: 'min-height 0.5s ease',
       }}
     >
-      {/* Background Images: layered for smooth fade */}
       <div
         style={{
           position: 'absolute',
@@ -64,7 +70,6 @@ export default function HeroSection() {
         ))}
       </div>
 
-      {/* Overlay Content */}
       <div
         style={{
           position: 'relative',
@@ -87,7 +92,6 @@ export default function HeroSection() {
             transition: 'all 0.5s ease',
           }}
         >
-          {/* Text */}
           <p
             style={{
               color: colors.white,
@@ -104,7 +108,6 @@ export default function HeroSection() {
             to elevate your brand
           </p>
 
-          {/* Button */}
           <Button
             text="Get Our Free Strategy"
             icon={emailIcon}

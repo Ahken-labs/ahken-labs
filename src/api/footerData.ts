@@ -31,7 +31,7 @@ export const FALLBACK_SITE_INFO: SiteInfoType = {
 };
 
 export const FALLBACK_SOCIAL_LINKS: SocialLink[] = [
-  { name: 'Facebook', href: 'facebook.com/AhkenLabs.page', icon: 'facebook' },
+  { name: 'Facebook', href: 'https://m.facebook.com/AhkenLabs.page?wtsid=rdr_0iXhCOzaE51i4wp3u', icon: 'facebook' },
   { name: 'Instagram', href: 'https://www.instagram.com', icon: 'instagram' },
   { name: 'Twitter', href: 'https://twitter.com', icon: 'twitter' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/company/ahkenlabs/', icon: 'LinkedIn' },

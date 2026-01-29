@@ -37,6 +37,13 @@ export default function ServicesSection() {
   const ailogoSize = isDesktop ? 400 : isTablet ? 200 : 150;
   const ailogoTop = isDesktop ? 54 : 40;
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+
   return (
     <section id="Services" style={{ paddingTop: sectionPaddingTop }}>
       <h2
@@ -71,17 +78,16 @@ export default function ServicesSection() {
               boxShadow: '0px 0px 16px 0px #00000014',
               display: 'flex',
               flexDirection: 'column',
-              // justifyContent: 'space-between',
             }}
           >
             <div
               className="flex justify-center mt-5"
               style={{
                 position: 'relative',
-                height: isDesktop? 245.33: 127,
+                height: isDesktop ? 245.33 : 127,
                 width: '100%',
                 overflow: 'hidden',
-                 flexShrink: 0,
+                flexShrink: 0,
               }}
             >
               <Image
@@ -107,7 +113,7 @@ export default function ServicesSection() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                flex: 1, 
+                flex: 1,
               }}
             >
               <h3 style={{ fontSize: isDesktop ? 24 : isTablet ? 16 : 14, fontWeight: 600 }}>
@@ -124,29 +130,27 @@ export default function ServicesSection() {
                 {service.description}
               </p>
               <div>
-              <p
-                style={{
-                  fontSize: isDesktop ? 20 : isTablet ? 14 : 14,
-                  fontWeight: 500,
-                  marginTop: isDesktop ? 26 : isTablet ? 20 : 20,
-                  fontStyle: 'italic',
-                }}
-              >
-                {service.tags}
-              </p>
+                <p
+                  style={{
+                    fontSize: isDesktop ? 20 : isTablet ? 14 : 14,
+                    fontWeight: 500,
+                    marginTop: isDesktop ? 26 : isTablet ? 20 : 20,
+                    fontStyle: 'italic',
+                  }}
+                >
+                  {service.tags}
+                </p>
 
-              <div style={{ marginTop: 24 }}>
-                <Image src={goArrow} alt="Go" width={nexticonsize} height={nexticonsize} />
-              </div>
+                <div style={{ marginTop: 24 }}>
+                  <Image src={goArrow} alt="Go" width={nexticonsize} height={nexticonsize} />
+                </div>
               </div>
             </CartBox>
           </div>
         ))}
       </div>
-      {/* Carousel Dots */}
       <CarouselDots containerRef={containerRef} />
 
-      {/* AI Logo */}
       <div
         style={{
           marginTop: ailogoTop,

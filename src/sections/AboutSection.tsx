@@ -57,6 +57,14 @@ export default function AboutSection() {
     const ctaButtonTextSize = isMobile || isTablet ? 14 : undefined;
     const ctaButtonIconSize = isMobile || isTablet ? 14 : undefined;
 
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
     return (
         <section id="about" ref={sectionRef}>
             {/* VIDEO BOX */}
@@ -92,13 +100,13 @@ export default function AboutSection() {
                     style={{
                         position: 'absolute',
                         top: "20%",
-                        left: isMobile? "13%": 80 * scale,
+                        left: isMobile ? "13%" : 80 * scale,
                         background: '#FFFFFF66',
-                        backdropFilter: isMobile? 'blur(10px)': 'blur(20px)',
+                        backdropFilter: isMobile ? 'blur(10px)' : 'blur(20px)',
                         boxShadow: '0px 0px 16px 0px #00000014',
-                        borderRadius: isMobile? 14 :24,
-                        padding: isMobile? 12: 40 * scale,
-                        maxWidth: isDesktop? 510 : isTablet? 500 : '75%',
+                        borderRadius: isMobile ? 14 : 24,
+                        padding: isMobile ? 12 : 40 * scale,
+                        maxWidth: isDesktop ? 510 : isTablet ? 500 : '75%',
                     }}
                 >
                     <h3
@@ -126,7 +134,7 @@ export default function AboutSection() {
                     </p>
 
                     <Button
-                        text={isMobile? "WhstsApp Us" : "Message us in WhatsApp"}
+                        text={isMobile ? "WhstsApp Us" : "Message us in WhatsApp"}
                         icon={messageIcon}
                         className="bg-gradient-to-r from-[#ACFF47] to-[#ABFF5B]"
                         textColor={colors.button_text}

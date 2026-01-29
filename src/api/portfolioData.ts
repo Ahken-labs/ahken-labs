@@ -35,6 +35,40 @@ import Admindashboard5 from '@/assets/images/Admindashboard05.png';
 import Admindashboard6 from '@/assets/images/Admindashboard06.png';
 import Admindashboard7 from '@/assets/images/Admindashboard07.png';
 
+import Ceylontea01 from '@/assets/images/Ceylontea01.png';
+import Ceylontea02 from '@/assets/images/Ceylontea02.png';
+import Ceylontea03 from '@/assets/images/Ceylontea03.png';
+import Ceylontea04 from '@/assets/images/Ceylontea04.png';
+
+
+import LimatWorld01 from '@/assets/images/LimatWorld01.png';
+import LimatWorld02 from '@/assets/images/LimatWorld02.png';
+import LimatWorld03 from '@/assets/images/LimatWorld03.png';
+import LimatWorld04 from '@/assets/images/LimatWorld04.png';
+import LimatWorld05 from '@/assets/images/LimatWorld05.png';
+import LimatWorld06 from '@/assets/images/LimatWorld06.png';
+import LimatWorld07 from '@/assets/images/LimatWorld07.png';
+import LimatWorld08 from '@/assets/images/LimatWorld08.png';
+import LimatWorld09 from '@/assets/images/LimatWorld09.png';
+import LimatWorld10 from '@/assets/images/LimatWorld10.png';
+
+import GrandmasSecret01 from '@/assets/images/GrandmasSecret01.png';
+import GrandmasSecret02 from '@/assets/images/GrandmasSecret02.png';
+import GrandmasSecret03 from '@/assets/images/GrandmasSecret03.png';
+import GrandmasSecret04 from '@/assets/images/GrandmasSecret04.png';
+import GrandmasSecret05 from '@/assets/images/GrandmasSecret05.png';
+import GrandmasSecret06 from '@/assets/images/GrandmasSecret06.png';
+import GrandmasSecret07 from '@/assets/images/GrandmasSecret07.png';
+import GrandmasSecret08 from '@/assets/images/GrandmasSecret08.png';
+import GrandmasSecret09 from '@/assets/images/GrandmasSecret09.png';
+import GrandmasSecret10 from '@/assets/images/GrandmasSecret10.png';
+import GrandmasSecret11 from '@/assets/images/GrandmasSecret11.png';
+import GrandmasSecret12 from '@/assets/images/GrandmasSecret12.png';
+import GrandmasSecret13 from '@/assets/images/GrandmasSecret13.png';
+import GrandmasSecret14 from '@/assets/images/GrandmasSecret14.png';
+
+import LimatWorld11 from '@/assets/images/LimatWorld11.png';
+
 import profileFallback from '@/assets/images/profile.png';
 
 /* ========== TYPES ========== */
@@ -68,7 +102,23 @@ export const FALLBACK_PORTFOLIO: PortfolioItem[] = [
     description:
       'Developed a meaningful brand identity inspired by Sri Lankan heritage and the elegance of Sigiriya art-capturing tradition, authenticity, and the charm of age-old family recipes.',
     link: 'https://xenia.com',
-    type: 'link',
+    type: 'ui',
+    frames:[
+      GrandmasSecret01,
+      GrandmasSecret02,
+      GrandmasSecret03,
+      GrandmasSecret04,
+      GrandmasSecret05,
+      GrandmasSecret06,
+      GrandmasSecret07,
+      GrandmasSecret08,
+      GrandmasSecret09,
+      GrandmasSecret10,
+      GrandmasSecret11,
+      GrandmasSecret12,
+      GrandmasSecret13,
+      GrandmasSecret14 
+    ],
   },
   {
     id: 'portfolio-5',
@@ -78,7 +128,20 @@ export const FALLBACK_PORTFOLIO: PortfolioItem[] = [
     description:
       'Created a bold jersey inspired by the brand’s tiger-eye identity. Designed using creative freedom, ensuring the visuals express strength, confidence, and the brand’s modern style.',
     link: 'https://xenia.com',
-    type: 'link',
+    type: 'ui',
+    frames:[
+      LimatWorld01,
+      LimatWorld02,
+      LimatWorld03,
+      LimatWorld04,
+      LimatWorld05,
+      LimatWorld06,
+      LimatWorld07,
+      LimatWorld08,
+      LimatWorld09,
+      LimatWorld10,
+      LimatWorld11,
+    ],
   },
   {
     id: 'portfolio-4',
@@ -88,7 +151,13 @@ export const FALLBACK_PORTFOLIO: PortfolioItem[] = [
     description:
       'Designed a vibrant calendar showcasing tea pluckers in lush greenery-celebrating Sri Lanka’s heritage through detailed and atmospheric digital artwork.',
     link: 'https://xenia.com',
-    type: 'link',
+    type: 'ui',
+    frames:[
+      Ceylontea01,
+      Ceylontea02,
+      Ceylontea03,
+      Ceylontea04,
+    ],
   },
   {
     id: 'portfolio-3',

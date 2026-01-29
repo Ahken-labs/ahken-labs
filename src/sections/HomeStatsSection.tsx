@@ -32,6 +32,14 @@ export default function HomeStatsSection() {
   // Margin top for detail row
   const detailMarginTop = isDesktop ? 64 : 20;
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <section className={`w-full flex flex-col items-center ${isDesktop ? 'mt-10' : isTablet ? 'mt-0' : 'mt-0'}`}>
 
@@ -75,7 +83,7 @@ export default function HomeStatsSection() {
         <div className="grid grid-cols-2 gap-4 w-full px-[30px]">
           {/* Row 1: focus box spans 2 columns */}
           <div className="col-span-2 w-full">
-            <CartBox {...boxPadding} style={{ width: '100%', alignItems:'center'}}>
+            <CartBox {...boxPadding} style={{ width: '100%', alignItems: 'center' }}>
               <div style={{ fontSize: focusTextSize, fontWeight: 600, textAlign: 'center' }}>
                 We focus on
                 <br />
@@ -126,7 +134,7 @@ export default function HomeStatsSection() {
           marginTop: detailMarginTop,
           marginLeft: isDesktop ? 40 : 10,
           marginRight: isDesktop ? 40 : 10,
-          maxWidth: isDesktop ? 690 :isMobile? '85%' :600,
+          maxWidth: isDesktop ? 690 : isMobile ? '85%' : 600,
           fontSize: detailTextSize,
           lineHeight: '150%',
           fontWeight: 400,
